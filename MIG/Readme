@@ -69,6 +69,7 @@ for role in \
     'roles/compute.instanceAdmin.v1' \
     'roles/compute.osAdminLogin' \
     'roles/iam.serviceAccountUser'
+
 do \
     gcloud projects add-iam-policy-binding \
         terraform-on-gcp-414809 \

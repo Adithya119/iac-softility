@@ -30,6 +30,10 @@ resource "google_compute_region_instance_template" "instance_template" {
         }
     }
 
+    labels = {
+        env = "test"
+    }
+
     # metadata_startup_script = "${file("apache.sh")}"
 
     service_account {
