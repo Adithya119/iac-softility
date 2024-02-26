@@ -1,0 +1,119 @@
+1. IAM-based access (OS Login):-
+OS Login enables you to control access to virtual machine (VM) instances based on IAM permissions. This restricts VM access to users with the "Compute OS Login" or "Compute OS Admin Login" role.
+
+2. Note that changing any field for this resource forces a new resource to be created.
+
+
+
+--------------
+
+# connect to vm's:- 
+
+# https://cloud.google.com/compute/docs/oslogin/set-up-oslogin#connect_to_vms_that_have_os_login_enabled
+---
+
+
+depends_on  --> not required if Terraform can automatically infer a resource's dependencies.
+#               In this use case, Terraform has detected the dependencies automatically
+
+---
+
+regional external Application Load Balancer:-
+
+7. Proxy-only subnet: subnet-for-ip-allocation 192.168.0.0/24 --> resource "google_compute_subnetwork" --> subnet
+8. frontend config --> resource "google_compute_forwarding_rule"          ??
+9. backend config --> resource "google_compute_region_backend_service"     ??
+10. routing rules --> resource "google_compute_region_url_map"
+
+---
+
+
+
+Pending:-      ************
+
+firwall rules --> 
+compare rules with My-first-project:-
+1. lb config:-
+Backend security policy - default-security-policy-for-backend-service-apache-web-backend
+
+balancing mode
+
+2. backend config:-
+Connection draining timeout - 300 seconds
+
+
+-----
+
+# Purpose of lb:-
+1. balance the load
+2. security (firewall)
+
+----
+
+# os login:-
+
+ref:- https://alex.dzyoba.com/blog/gcp-ansible-service-account/
+
+1. 
+gcloud iam service-accounts create ansible-sa \
+     --display-name "Service account for Ansible"
+
+2. 
+gcloud compute project-info add-metadata \
+    --metadata enable-oslogin=TRUE
+
+
+3. 
+for role in \
+    'roles/compute.instanceAdmin' \
+    'roles/compute.instanceAdmin.v1' \
+    'roles/compute.osAdminLogin' \
+    'roles/iam.serviceAccountUser'
+do \
+    gcloud projects add-iam-policy-binding \
+        terraform-on-gcp-414809 \
+        --member='serviceAccount:ansible-sa@terraform-on-gcp-414809.iam.gserviceaccount.com' \
+        --role="${role}"
+done
+
+
+4. 
+gcloud iam service-accounts keys create \
+    .gcp/gcp-key-ansible-sa.json \
+    --iam-account=ansible-sa@terraform-on-gcp-414809.iam.gserviceaccount.com
+
+
+5. 
+ssh-keygen -t rsa -m PEM -f .ssh/rsa-key
+
+Note:- 
+Ansible-awx only accepts key with "rsa format"
+
+
+6. 
+gcloud auth activate-service-account \
+    --key-file=.gcp/gcp-key-ansible-sa.json
+
+
+7. 
+gcloud compute os-login ssh-keys add \
+    --key-file=.ssh/rsa-key.pub
+
+
+8. 
+gcloud config set account < your@gmail.com >
+
+
+9. 
+gcloud iam service-accounts describe \
+    ansible-sa@terraform-on-gcp-414809.iam.gserviceaccount.com \
+    --format='value(uniqueId)'
+104624403749554301650
+
+
+sa_104624403749554301650
+
+10. 
+gcloud compute ssh --zone=us-central1-c --ssh-key-file=.ssh/rsa-key.pub sa_104624403749554301650@< vm-name >
+
+---------------------------

@@ -1,0 +1,3 @@
+Initialized terraform in multiple folders (1st, MIG, etc). Each folder is treated separately --> each folder has its own state file.
+
+Make sure you copy the credentials.json into all the folders.
