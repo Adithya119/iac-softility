@@ -87,7 +87,7 @@ gcloud iam service-accounts keys create \
 ssh-keygen -t rsa -m PEM -f .ssh/rsa-key
 
 Note:- 
-Ansible-awx only accepts key with "rsa format"
+Ansible-awx only accepts key with "rsa format"    // The private key file 'rsa-key' has been saved in this 'MIG' folder.
 
 
 6. 

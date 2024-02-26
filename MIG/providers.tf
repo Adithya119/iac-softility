@@ -14,7 +14,7 @@ provider "google" {
   # Configuration options
 
   project     = "terraform-on-gcp-414809" 
-  credentials = "${file("credentials.json")}"
+  credentials = "${file("ansible-sa-creds.json")}"
   # region
   # zone 
 }

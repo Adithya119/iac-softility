@@ -33,8 +33,8 @@ resource "google_compute_region_instance_template" "instance_template" {
     # metadata_startup_script = "${file("apache.sh")}"
 
     service_account {
-        email = "terraform-service-acc@terraform-on-gcp-414809.iam.gserviceaccount.com"
-        scopes = ["cloud-platform"]
+        email = "ansible-sa@terraform-on-gcp-414809.iam.gserviceaccount.com"
+        scopes = ["cloud-platform"]                     //
     }
 }
 
@@ -139,7 +139,7 @@ resource "google_compute_region_instance_group_manager" "mig" {
 
     auto_healing_policies {
         health_check = google_compute_region_health_check.this.id
-        initial_delay_sec = 300
+        initial_delay_sec = 3000     //
     }
 }
 
@@ -201,7 +201,7 @@ resource "google_compute_region_backend_service" "this" {
 // 10 - routing rules:-
 
 resource "google_compute_region_url_map" "this" {
-    name = "routing-rules"
+    name = "lb-routing-rules"
     region = "us-central1"
     default_service = google_compute_region_backend_service.this.id
 }
