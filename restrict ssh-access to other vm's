@@ -12,3 +12,4 @@ https://cloud.google.com/compute/docs/connect/add-ssh-keys#add_ssh_keys_to_insta
 
 
 gcloud compute ssh --zone=us-central1-c --ssh-key-file=.ssh/rsa-key.pub sa_104624403749554301650@< vm-name >
+https://cloud.google.com/sdk/gcloud/reference/compute/ssh
