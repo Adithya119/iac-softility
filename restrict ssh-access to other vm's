@@ -1,0 +1,14 @@
+https://cloud.google.com/compute/docs/instances/ssh#third-party-tools
+
+
+https://cloud.google.com/compute/docs/connect/create-ssh-keys#windows-10-or-later
+(or)
+ssh-keygen -t rsa -m PEM -f .ssh/rsa-key
+(or)
+ssh-keygen -f <key-name>
+
+
+https://cloud.google.com/compute/docs/connect/add-ssh-keys#add_ssh_keys_to_instance_metadata
+
+
+gcloud compute ssh --zone=us-central1-c --ssh-key-file=.ssh/rsa-key.pub sa_104624403749554301650@< vm-name >
